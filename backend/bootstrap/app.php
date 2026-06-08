@@ -24,7 +24,8 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Token-based API auth (Bearer) — không dùng Sanctum stateful/CSRF cookie
+        // Caddy/Cloudflare terminate TLS; backend sees HTTP on :8800
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

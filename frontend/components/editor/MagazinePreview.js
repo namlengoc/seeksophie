@@ -67,10 +67,13 @@ export default function MagazinePreview({ data, images = [], imageLookup = {}, o
   const inlineUsed = useMemo(() => new Set(inlinePlan.flat()), [inlinePlan]);
 
   const carouselImages = useMemo(() => {
-    if (images.length <= MAX_INLINE_IMAGES) return [];
-    return images.filter(
+    const unused = images.filter(
       (img) => !inlineUsed.has(img.filename) && !inlineUsed.has(img.stored_name)
     );
+    if (unused.length > 0) return unused;
+    // AI did not place images inline — still show uploaded photos
+    if (inlineUsed.size === 0 && images.length > 0) return images;
+    return [];
   }, [images, inlineUsed]);
 
   if (!data) {

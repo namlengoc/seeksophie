@@ -64,6 +64,7 @@ POSTGRES_USER=seeksophie
 POSTGRES_PASSWORD=<strong-password>
 
 GEMINI_API_KEY=<your-key>
+GEMINI_MODEL=gemini-2.5-flash-lite
 LLM_PROVIDER=auto
 ```
 
@@ -101,11 +102,24 @@ All services should be **Up**: `frontend`, `backend`, `queue-worker`, `ai-servic
 
 ## Step 5 — Laravel APP_KEY (first deploy)
 
+Generate a key and save it to **`backend/.env` on the host** (required — container env is injected from this file):
+
 ```bash
 cd /opt/seeksophie
-docker compose -f docker-compose.prod.yml exec backend php artisan key:generate --force
-docker compose -f docker-compose.prod.yml exec backend php artisan config:cache
+KEY=$(docker compose -f docker-compose.prod.yml exec -T backend php artisan key:generate --show | tr -d '\r')
+sed -i "s|^APP_KEY=.*|APP_KEY=\"${KEY}\"|" backend/.env
+grep APP_KEY backend/.env
 ```
+
+Recreate backend containers so Docker reloads env vars (`restart` alone is **not** enough):
+
+```bash
+docker compose -f docker-compose.prod.yml up -d --force-recreate backend queue-worker
+docker compose -f docker-compose.prod.yml exec backend php artisan config:clear
+docker compose -f docker-compose.prod.yml exec backend php artisan tinker --execute="echo strlen(config('app.key'));"
+```
+
+Expected key length: **~50** (not `0`). Then test:
 
 Internal health check:
 
@@ -194,5 +208,8 @@ Caddy :80/:443
 | 502 from Caddy | `docker compose -f docker-compose.prod.yml ps` — containers up? |
 | Wrong API URL in browser | Rebuild frontend after `.env` change |
 | CORS | `CORS_ALLOWED_ORIGINS` in `backend/.env` |
+| `password authentication failed for user "sail"` | `php artisan config:clear`, set `DB_USERNAME=seeksophie`, `--force-recreate backend` |
+| `Unsupported cipher or incorrect key length` | Set quoted `APP_KEY="base64:..."` in `backend/.env`, then `--force-recreate backend` (not just `restart`) |
+| Article images blank in editor | Set `APP_URL=https://seeksophie-api.meetutor.com` in `backend/.env`, then `--force-recreate backend` + `config:cache`. If API still returns `http://` image URLs, pull latest backend (forces `APP_URL` for image links). Rebuild frontend. **No** `storage:link` required |
 | Stuck processing | `docker compose -f docker-compose.prod.yml logs queue-worker -f` |
 | AI errors | `docker compose -f docker-compose.prod.yml logs ai-service` |

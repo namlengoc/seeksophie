@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { getToken } from '../../lib/auth';
+import { normalizeImageUrl } from '../../lib/images';
 
 export default function AuthImage({ src, alt = '', className = '' }) {
   const [blobUrl, setBlobUrl] = useState('');
@@ -12,10 +13,11 @@ export default function AuthImage({ src, alt = '', className = '' }) {
 
     async function load() {
       const token = getToken();
-      if (!src || !token) return;
+      const imageSrc = normalizeImageUrl(src);
+      if (!imageSrc || !token) return;
 
       try {
-        const response = await fetch(src, {
+        const response = await fetch(imageSrc, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.ok || cancelled) return;

@@ -47,7 +47,7 @@ class ArticleImages
                 'index' => $image['index'],
                 'filename' => $image['filename'],
                 'stored_name' => $image['stored_name'],
-                'url' => url("/api/v1/articles/{$articleId}/images/{$image['index']}"),
+                'url' => rtrim((string) config('app.url'), '/')."/api/v1/articles/{$articleId}/images/{$image['index']}",
             ])
             ->values()
             ->all();
