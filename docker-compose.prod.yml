@@ -28,6 +28,9 @@ services:
       - APP_ENV=production
       - APP_DEBUG=false
       - AI_SERVICE_URL=http://ai-service:8001
+      - DB_USERNAME=${POSTGRES_USER:-seeksophie}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
     depends_on:
       postgres:
         condition: service_healthy
@@ -50,6 +53,9 @@ services:
       - APP_ENV=production
       - APP_DEBUG=false
       - AI_SERVICE_URL=http://ai-service:8001
+      - DB_USERNAME=${POSTGRES_USER:-seeksophie}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
     depends_on:
       postgres:
         condition: service_healthy
@@ -94,7 +100,10 @@ services:
   redis:
     image: redis:7-alpine
     restart: unless-stopped
-    command: redis-server --save 60 1 --loglevel notice
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Set REDIS_PASSWORD in root .env}
+    command: >
+      sh -c 'exec redis-server --save 60 1 --loglevel notice --requirepass "$$REDIS_PASSWORD"'
     networks:
       - seeksophie
 
