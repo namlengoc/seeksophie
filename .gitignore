@@ -1,0 +1,15 @@
+.env
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+.DS_Store
+backend/.env
+backend/storage/logs/*
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+frontend/.next/
+frontend/node_modules/
+ai-service/.venv/
+ai-service/__pycache__/

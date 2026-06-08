@@ -1,0 +1,43 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { getToken } from '../../lib/auth';
+
+export default function AuthImage({ src, alt = '', className = '' }) {
+  const [blobUrl, setBlobUrl] = useState('');
+
+  useEffect(() => {
+    let objectUrl = '';
+    let cancelled = false;
+
+    async function load() {
+      const token = getToken();
+      if (!src || !token) return;
+
+      try {
+        const response = await fetch(src, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!response.ok || cancelled) return;
+        const blob = await response.blob();
+        objectUrl = URL.createObjectURL(blob);
+        if (!cancelled) setBlobUrl(objectUrl);
+      } catch {
+        // ignore
+      }
+    }
+
+    load();
+
+    return () => {
+      cancelled = true;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [src]);
+
+  if (!blobUrl) {
+    return <div className={`magazine-photo-skeleton skeleton ${className}`} />;
+  }
+
+  return <img src={blobUrl} alt={alt} className={className} loading="lazy" />;
+}
