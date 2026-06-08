@@ -2,6 +2,4 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Web routes (session/cookies). API root lives in bootstrap/app.php `then` callback.

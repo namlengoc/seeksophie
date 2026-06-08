@@ -21,6 +21,7 @@ services:
     ports:
       - "127.0.0.1:${BACKEND_PORT:-8800}:8000"
     volumes:
+      - ./backend/.env:/var/www/html/.env:ro
       - backend_storage:/var/www/html/storage/app
     env_file:
       - ./backend/.env
@@ -46,6 +47,7 @@ services:
     command: php artisan queue:work redis --queue=high,ai-processing,default --tries=3 --timeout=300
     restart: unless-stopped
     volumes:
+      - ./backend/.env:/var/www/html/.env:ro
       - backend_storage:/var/www/html/storage/app
     env_file:
       - ./backend/.env
@@ -74,6 +76,8 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash-lite}
       - LLM_PROVIDER=${LLM_PROVIDER:-auto}
     depends_on:
       - backend

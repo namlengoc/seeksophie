@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     openai_api_key: str = ""
     gemini_api_key: str = ""
     openai_model: str = "gpt-4o-mini"
-    gemini_model: str = "gemini-1.5-flash"
+    gemini_model: str = "gemini-2.5-flash-lite"
     llm_provider: str = "auto"  # auto | openai | gemini | mock
 
 
