@@ -12,6 +12,7 @@ import {
 import { isAuthenticated } from '../lib/auth';
 import { DOCX_MIME, IMAGE_MIMES } from '../lib/constants';
 import { getOrCreateGuestToken } from '../lib/guest-article';
+import { formatUserError } from '../lib/i18n';
 import { useLanguage } from '../providers/LanguageProvider';
 
 function validateDocx(file) {
@@ -123,7 +124,7 @@ export default function ArticleUploadForm({ inputIdPrefix = '', onSuccess }) {
         router.push('/login');
         return;
       }
-      setError(err.message || t('upload.errorFailed'));
+      setError(formatUserError(err, t, 'upload.errorFailed'));
     } finally {
       setLoading(false);
       setConfirmOpen(false);
@@ -166,7 +167,7 @@ export default function ArticleUploadForm({ inputIdPrefix = '', onSuccess }) {
         router.push('/login');
         return;
       }
-      setError(err.message || t('upload.errorFailed'));
+      setError(formatUserError(err, t, 'upload.errorFailed'));
     } finally {
       setDetecting(false);
     }

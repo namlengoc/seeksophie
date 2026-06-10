@@ -13,6 +13,7 @@ import {
   primeAuthResumeFromSearch,
   readArticleIdFromSearch,
 } from '../lib/guest-article';
+import { formatUserError } from '../lib/i18n';
 import { useLanguage } from '../providers/LanguageProvider';
 
 const OAUTH_ERROR_KEYS = {
@@ -68,7 +69,7 @@ export default function LoginForm({ embedded = false, articleId = null }) {
         await finalizeAuthSession(router);
       }
     } catch (err) {
-      setError(err.message || t('auth.login.failed'));
+      setError(formatUserError(err, t, 'auth.login.failed'));
     } finally {
       setLoading(false);
     }

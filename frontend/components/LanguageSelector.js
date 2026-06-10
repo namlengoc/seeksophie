@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { CONTENT_LANGUAGE_CODES, UI_LOCALE_FLAGS, UI_LOCALE_LABELS } from '../lib/i18n';
+import { CONTENT_LANGUAGE_CODES, getLanguageLabel, UI_LOCALE_FLAGS } from '../lib/i18n';
 import { useLanguage } from '../providers/LanguageProvider';
 
 export default function LanguageSelector({ compact = false }) {
@@ -29,7 +29,7 @@ export default function LanguageSelector({ compact = false }) {
         aria-label={t('header.language')}
       >
         <span>{UI_LOCALE_FLAGS[locale]}</span>
-        {!compact ? <span>{UI_LOCALE_LABELS[locale]}</span> : null}
+        {!compact ? <span>{getLanguageLabel(locale, t)}</span> : null}
       </button>
       {open ? (
         <div className="lang-selector-menu" role="menu">
@@ -45,7 +45,7 @@ export default function LanguageSelector({ compact = false }) {
               }}
             >
               <span>{UI_LOCALE_FLAGS[code]}</span>
-              <span>{UI_LOCALE_LABELS[code]}</span>
+              <span>{getLanguageLabel(code, t)}</span>
             </button>
           ))}
         </div>

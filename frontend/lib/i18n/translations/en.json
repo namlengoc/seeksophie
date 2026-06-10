@@ -93,6 +93,7 @@
   "auth.register.failed": "Registration failed",
 
   "auth.social.continueWithGoogle": "Continue with Google",
+  "auth.social.google": "Google",
   "auth.social.redirecting": "Redirecting…",
   "auth.social.syncing": "Completing sign in…",
   "auth.social.loading": "Loading…",
@@ -210,5 +211,6 @@
 
   "common.close": "Close",
   "common.loading": "Loading…",
-  "common.emDash": "—"
+  "common.emDash": "—",
+  "common.requestFailed": "Request failed ({status})"
 }

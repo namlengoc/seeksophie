@@ -69,7 +69,7 @@ export default function SocialLoginButtons({ articleId = null } = {}) {
           loading="lazy"
         />
         <span className="auth-social-label">
-          {loading ? t('auth.social.redirecting') : 'Google'}
+          {loading ? t('auth.social.redirecting') : t('auth.social.google')}
         </span>
       </button>
     </div>

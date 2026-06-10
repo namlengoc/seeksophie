@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { fetchArticle, updateArticle } from '../../lib/api';
 import { buildImageLookup } from '../../lib/images';
+import { formatUserError } from '../../lib/i18n';
 import { useLanguage } from '../../providers/LanguageProvider';
 import RawContentPanel from './RawContentPanel';
 import MagazinePreview from './MagazinePreview';
@@ -41,7 +42,7 @@ export default function ArticleEditor({ articleId }) {
         setArticle(data);
         setExtractedData(data.extracted_data_json || {});
       } catch (err) {
-        if (!cancelled) setError(err.message || t('editor.loadError'));
+        if (!cancelled) setError(formatUserError(err, t, 'editor.loadError'));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -84,7 +85,7 @@ export default function ArticleEditor({ articleId }) {
       setExtractedData(result.extracted_data_json || extractedData);
       setSaveMessage(t('editor.saved'));
     } catch (err) {
-      setSaveError(err.message || t('editor.saveFailed'));
+      setSaveError(formatUserError(err, t, 'editor.saveFailed'));
     } finally {
       setSaving(false);
     }

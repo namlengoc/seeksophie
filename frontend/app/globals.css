@@ -1146,8 +1146,27 @@ main:has(.landing-page) {
 }
 
 .site-header-landing .lang-selector-trigger {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.38);
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+
+/* Dropdown sits on white surface — override landing header white link color */
+.site-header-landing .lang-selector-menu {
+  background: #fff;
+  border-color: rgba(26, 26, 26, 0.1);
+  box-shadow: 0 12px 36px rgba(26, 26, 26, 0.18);
+}
+
+.site-header-landing .lang-selector-menu button {
+  color: var(--ink);
+}
+
+.site-header-landing .lang-selector-menu button:hover,
+.site-header-landing .lang-selector-menu button.active {
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 
 .landing-upload-backdrop {
@@ -1501,6 +1520,7 @@ main:has(.landing-page) {
   border-radius: 999px;
   background: var(--surface);
   border: 1px solid var(--border);
+  color: var(--ink);
   font-size: 0.9rem;
 }
 
@@ -1565,6 +1585,16 @@ main:has(.landing-page) {
   align-items: center;
   gap: 1rem;
   color: var(--muted);
+}
+
+.landing-footer .lang-selector-trigger {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.landing-footer .lang-selector-menu button {
+  color: var(--ink);
 }
 
 .lang-selector {

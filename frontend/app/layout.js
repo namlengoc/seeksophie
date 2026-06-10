@@ -4,8 +4,8 @@ import DocumentMeta from '../components/DocumentMeta';
 import { LanguageProvider } from '../providers/LanguageProvider';
 
 export const metadata = {
-  title: 'Seek Sophie CMS',
-  description: 'AI-powered travel content editor',
+  title: 'Seek Sophie',
+  description: 'AI-powered travel CMS — turn field notes into magazine-ready stories.',
 };
 
 export default function RootLayout({ children }) {

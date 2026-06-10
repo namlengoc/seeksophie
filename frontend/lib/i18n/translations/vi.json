@@ -93,6 +93,7 @@
   "auth.register.failed": "Đăng ký thất bại",
 
   "auth.social.continueWithGoogle": "Tiếp tục với Google",
+  "auth.social.google": "Google",
   "auth.social.redirecting": "Đang chuyển hướng…",
   "auth.social.syncing": "Đang hoàn tất đăng nhập…",
   "auth.social.loading": "Đang tải…",
@@ -210,5 +211,6 @@
 
   "common.close": "Đóng",
   "common.loading": "Đang tải…",
-  "common.emDash": "—"
+  "common.emDash": "—",
+  "common.requestFailed": "Yêu cầu thất bại ({status})"
 }

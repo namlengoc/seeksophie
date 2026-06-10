@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { fetchArticles } from '../lib/api';
 import { getUser } from '../lib/auth';
-import { roleLabel, statusLabel } from '../lib/i18n';
+import { formatUserError, roleLabel, statusLabel } from '../lib/i18n';
 import { useLanguage } from '../providers/LanguageProvider';
 
 export default function Dashboard() {
@@ -22,7 +22,7 @@ export default function Dashboard() {
         const data = await fetchArticles();
         if (!cancelled) setArticles(data.data || []);
       } catch (err) {
-        if (!cancelled) setError(err.message || t('dashboard.loadError'));
+        if (!cancelled) setError(formatUserError(err, t, 'dashboard.loadError'));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -99,7 +99,7 @@ export default function Dashboard() {
                       <Link href={`/editor/${article.id}`} className="article-link">
                         {t('dashboard.openEditor')}
                       </Link>
-                    ) : ['pending', 'processing'].includes(article.status) ? (
+                    ) : ['pending', 'processing', 'rejected', 'failed'].includes(article.status) ? (
                       <Link href={`/processing/${article.id}`} className="article-link">
                         {t('dashboard.viewProgress')}
                       </Link>

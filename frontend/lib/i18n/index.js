@@ -91,4 +91,16 @@ export function roleLabel(t, role) {
   return label === key ? role : label;
 }
 
+const REQUEST_FAILED_RE = /^Request failed \((\d+)\)$/;
+
+/** Prefer translated fallback over raw English API / fetch messages. */
+export function formatUserError(err, t, fallbackKey) {
+  const fallback = t(fallbackKey);
+  const message = err?.message?.trim();
+  if (!message) return fallback;
+  const match = message.match(REQUEST_FAILED_RE);
+  if (match) return t('common.requestFailed', { status: match[1] });
+  return message;
+}
+
 export const LANDING_LANG_STRIP = ['en', 'vi', 'ja', 'ko', 'fr'];

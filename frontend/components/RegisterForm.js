@@ -13,6 +13,7 @@ import {
   primeAuthResumeFromSearch,
   readArticleIdFromSearch,
 } from '../lib/guest-article';
+import { formatUserError } from '../lib/i18n';
 import { useLanguage } from '../providers/LanguageProvider';
 
 export default function RegisterForm({ embedded = false, articleId = null }) {
@@ -63,7 +64,7 @@ export default function RegisterForm({ embedded = false, articleId = null }) {
         await finalizeAuthSession(router);
       }
     } catch (err) {
-      setError(err.message || t('auth.register.failed'));
+      setError(formatUserError(err, t, 'auth.register.failed'));
     } finally {
       setLoading(false);
     }

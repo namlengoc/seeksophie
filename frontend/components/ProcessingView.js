@@ -16,7 +16,7 @@ import {
   markArticleResumeAfterAuth,
   readGuestTokenFromSearch,
 } from '../lib/guest-article';
-import { statusLabel } from '../lib/i18n';
+import { formatUserError, statusLabel } from '../lib/i18n';
 import { useLanguage } from '../providers/LanguageProvider';
 
 const STATUS_MESSAGE_KEYS = [
@@ -81,7 +81,7 @@ export default function ProcessingView({ articleId }) {
           router.replace(`/editor/${articleId}`);
         }
       } catch (err) {
-        if (!cancelled) setPollError(err.message || t('processing.statusError'));
+        if (!cancelled) setPollError(formatUserError(err, t, 'processing.statusError'));
       }
     }
 
@@ -154,7 +154,9 @@ export default function ProcessingView({ articleId }) {
 
         {isFailed ? (
           <div>
-            <p className="error-text">{errorMessage || t('processing.failed')}</p>
+            <p className="error-text">
+              {errorMessage ? formatUserError({ message: errorMessage }, t, 'processing.failed') : t('processing.failed')}
+            </p>
             <Link href="/" className="btn btn-secondary" style={{ marginTop: '1rem' }}>
               {t('processing.tryAgain')}
             </Link>
