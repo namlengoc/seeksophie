@@ -126,6 +126,7 @@
   "dashboard.status.under_review": "Under review",
   "dashboard.status.published": "Published",
   "dashboard.status.failed": "Failed",
+  "dashboard.status.rejected": "Not suitable",
 
   "processing.title": "AI is processing your notes",
   "processing.subtitle": "This usually takes under a minute.",
@@ -143,6 +144,8 @@
   "processing.statusMessage.7": "Polishing the draft — almost there…",
   "processing.statusMessage.8": "Putting the finishing touches on your article…",
   "processing.failed": "Processing failed.",
+  "processing.rejected": "This document is not suitable for a travel article.",
+  "processing.rejectedHint": "Please upload rough field notes about a trip, destination, host, or experience — not unrelated documents.",
   "processing.statusError": "Failed to check status",
   "processing.tryAgain": "Try another upload",
   "processing.backDashboard": "Back to dashboard",

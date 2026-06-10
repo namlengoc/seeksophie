@@ -126,6 +126,7 @@
   "dashboard.status.under_review": "Chờ duyệt",
   "dashboard.status.published": "Đã xuất bản",
   "dashboard.status.failed": "Lỗi",
+  "dashboard.status.rejected": "Không phù hợp",
 
   "processing.title": "AI đang xử lý ghi chép",
   "processing.subtitle": "Thường mất dưới một phút.",
@@ -143,6 +144,8 @@
   "processing.statusMessage.7": "Hoàn thiện bản nháp — sắp xong rồi…",
   "processing.statusMessage.8": "Đang chạm nốt những chi tiết cuối cùng…",
   "processing.failed": "Xử lý thất bại.",
+  "processing.rejected": "Tài liệu này không phù hợp để tạo bài du lịch.",
+  "processing.rejectedHint": "Vui lòng upload ghi chú về chuyến đi, điểm đến, host hoặc trải nghiệm — không phải tài liệu không liên quan.",
   "processing.statusError": "Không kiểm tra được trạng thái",
   "processing.tryAgain": "Thử tải lên lại",
   "processing.backDashboard": "Về bảng điều khiển",

@@ -113,6 +113,7 @@ select {
 .badge-processing { background: #fff7ed; color: #c2410c; }
 .badge-draft { background: #f3f4f6; color: #374151; }
 .badge-failed { background: #fef2f2; color: var(--danger); }
+.badge-rejected { background: #fff7ed; color: #c2410c; }
 .badge-published { background: #ecfdf3; color: var(--success); }
 .badge-under_review { background: #eff6ff; color: #1d4ed8; }
 

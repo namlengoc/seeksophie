@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\DocumentUnsuitableException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -55,6 +56,17 @@ class AiServiceClient
         ]);
 
         if ($response->failed()) {
+            if ($response->status() === 422) {
+                $detail = $response->json('detail');
+
+                if (is_array($detail) && ($detail['code'] ?? '') === 'document_unsuitable') {
+                    throw new DocumentUnsuitableException(
+                        $detail['message'] ?? 'This document is not suitable for travel article generation.',
+                        $detail['raw_content'] ?? null,
+                    );
+                }
+            }
+
             Log::error('AI service request failed', [
                 'status' => $response->status(),
                 'body' => $response->body(),

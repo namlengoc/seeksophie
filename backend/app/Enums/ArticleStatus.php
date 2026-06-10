@@ -10,4 +10,5 @@ enum ArticleStatus: string
     case UnderReview = 'under_review';
     case Published = 'published';
     case Failed = 'failed';
+    case Rejected = 'rejected';
 }

@@ -6,7 +6,7 @@ export const DOCX_MIME = 'application/vnd.openxmlformats-officedocument.wordproc
 
 export const IMAGE_MIMES = ['image/jpeg', 'image/png', 'image/webp'];
 
-export const TERMINAL_STATUSES = ['draft', 'failed', 'published', 'under_review'];
+export const TERMINAL_STATUSES = ['draft', 'failed', 'rejected', 'published', 'under_review'];
 
 export const PROCESSING_STATUSES = ['pending', 'processing'];
 

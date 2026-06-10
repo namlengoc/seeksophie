@@ -95,6 +95,7 @@ export default function ProcessingView({ articleId }) {
 
   const isProcessing = PROCESSING_STATUSES.includes(status);
   const isFailed = status === 'failed';
+  const isRejected = status === 'rejected';
 
   return (
     <>
@@ -141,6 +142,16 @@ export default function ProcessingView({ articleId }) {
           <p style={{ color: 'var(--muted)', marginTop: '1rem' }}>{t('processing.awaitingAuth')}</p>
         ) : null}
 
+        {isRejected ? (
+          <div>
+            <p className="error-text">{errorMessage || t('processing.rejected')}</p>
+            <p style={{ color: 'var(--muted)', marginTop: '0.75rem' }}>{t('processing.rejectedHint')}</p>
+            <Link href="/" className="btn btn-secondary" style={{ marginTop: '1rem' }}>
+              {t('processing.tryAgain')}
+            </Link>
+          </div>
+        ) : null}
+
         {isFailed ? (
           <div>
             <p className="error-text">{errorMessage || t('processing.failed')}</p>
@@ -152,7 +163,7 @@ export default function ProcessingView({ articleId }) {
 
         {pollError ? <p className="error-text">{pollError}</p> : null}
 
-        {TERMINAL_STATUSES.includes(status) && status !== 'failed' && status !== 'draft' ? (
+        {TERMINAL_STATUSES.includes(status) && status !== 'failed' && status !== 'rejected' && status !== 'draft' ? (
           <Link href={`/editor/${articleId}`} className="btn btn-primary">
             {t('processing.openEditor')}
           </Link>

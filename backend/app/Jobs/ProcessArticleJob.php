@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\ArticleStatus;
+use App\Exceptions\DocumentUnsuitableException;
 use App\Models\Article;
 use App\Services\AiServiceClient;
 use App\Support\ArticleImages;
@@ -58,12 +59,23 @@ class ProcessArticleJob implements ShouldQueue
             $documentFilename = pathinfo($documentFilename, PATHINFO_FILENAME).'.docx';
         }
 
-        $result = $aiService->processDocument(
-            $documentPath,
-            $images,
-            $article->source_lang ?? 'en',
-            $documentFilename
-        );
+        try {
+            $result = $aiService->processDocument(
+                $documentPath,
+                $images,
+                $article->source_lang ?? 'en',
+                $documentFilename
+            );
+        } catch (DocumentUnsuitableException $e) {
+            $article->update([
+                'status' => ArticleStatus::Rejected,
+                'error_message' => $e->getMessage(),
+                'raw_content_json' => $e->rawContent,
+                'extracted_data_json' => null,
+            ]);
+
+            return;
+        }
 
         $extracted = $result['extracted_data'] ?? [];
         $extracted = $this->mapSuggestedImagesToStoredNames($extracted, $images);

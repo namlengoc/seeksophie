@@ -11,6 +11,7 @@ from services.boundary_check import boundary_check
 from services.docx_parser import parse_docx_to_chunks
 from services.language_detect_service import LanguageDetectService
 from services.llm_service import extract_article
+from services.suitability_service import assess_document_suitability
 
 logger = logging.getLogger(__name__)
 
@@ -121,6 +122,23 @@ async def process_document(
         raise HTTPException(status_code=422, detail="Document contains no readable paragraphs")
 
     settings = get_settings()
+
+    try:
+        suitability = assess_document_suitability(settings, raw_chunks)
+    except Exception as exc:
+        logger.exception("Document suitability check failed")
+        raise HTTPException(status_code=502, detail=f"Suitability check failed: {exc}") from exc
+
+    if not suitability.suitable:
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "code": "document_unsuitable",
+                "message": suitability.reason,
+                "confidence": suitability.confidence,
+                "raw_content": [chunk.model_dump() for chunk in raw_chunks],
+            },
+        )
 
     try:
         extracted = extract_article(
